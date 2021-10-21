@@ -1,12 +1,10 @@
 import React from "react";
+import {Container} from './styles'
 import { Text } from "react-native";
-import { Container } from './styles'
-
-
 export default () => {
     return(
         <Container>
-            <Text>Como coletar?</Text>
+            <Text>SignIn</Text>
         </Container>
     )
 }

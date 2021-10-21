@@ -1,12 +1,12 @@
-import React, {Components} from 'react';
-import {View, Text} from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 
-const App = () => {
-    return (
-        <View style={{flex: 1, borderBottomColor: 'fff'}}>
-            <Text style={{color: "#000"}}>ReactNative...</Text>
-        </View>
-    );
+import MainStack from './src/stacks/MainStack';
+
+export default () => {
+    return(
+        <NavigationContainer>
+            <MainStack />
+        </NavigationContainer>
+    )
 }
-
-export default App;
