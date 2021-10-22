@@ -14,7 +14,8 @@ export default {
         return json;
     },
     
-    Login: async (user, password) => {
+    signIn: async (user, password) => {
+        
         const req = await fetch(`${BASE_API}/auth/login`,{
             method: 'POST',
             headers: {
@@ -28,7 +29,7 @@ export default {
         return json;
     },
 
-    Cadastro: async (nome, telefone, password) => {
+    signUp: async (nome, telefone, password) => {
         const req = await fetch(`${BASE_API}/user`,{
             method: 'POST',
             headers: {
