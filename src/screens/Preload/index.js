@@ -24,7 +24,7 @@ export default () => {
                         routes: [{ name: 'MainTab' }]
                     });
                 } else {
-                    navigation.navigate('SignIn');
+                    navigation.navigate('MainTab');
                 }
             }
             else {
