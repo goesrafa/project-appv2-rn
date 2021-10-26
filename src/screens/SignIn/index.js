@@ -26,6 +26,7 @@ export default () => {
 
     const handleSignClick = async () => {
         if(userField !== ' ' && passwordField !== ' '){
+            
             let json = await Api.signIn(userField, passwordField);           
             if(json.data[0].token){
                 navigation.reset({

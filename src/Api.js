@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const BASE_API = 'http://10.0.2.2:8080';
 
 export default {
@@ -41,4 +42,12 @@ export default {
         const json = await req.json();
         return json;
     },
+
+    getHospital : async () => {
+        const token = await AsyncStorage.getItem('token');
+
+        const req = await fetch(`${BASE_API}/hospital?token=${token}`);
+        const json = await req.json();
+        return json;
+    }
 }
