@@ -1,5 +1,5 @@
 import React,{ useState, useEffect} from "react";
-import { Platform } from "react-native";
+import { Platform, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { request, PERMISSIONS } from "react-native-permissions";
 import Geolocation from "@react-native-community/geolocation";
@@ -35,8 +35,10 @@ export default () => {
     const [coords, setCoords] = useState(null);
     const [loading, setLoading] = useState(false);
     const [list, setList] = useState([]);
+    
 
-    const handlerLocationFinder = async () => {
+   
+      const handlerLocationFinder = async () => {
         setCoords(null);
         let result = await request(
             Platform.OS === 'ios' ?
@@ -50,19 +52,27 @@ export default () => {
             setLocationText('');
             setList([]);
 
-            Geolocation.getCurrentPosition(()=>{
+            Geolocation.getCurrentPosition((info)=>{
                 setCoords(info.coords);
                 getHospital();
             });
         }
     }
+    
 
     const getHospital = async () =>{
         setLoading(true);
         setList([]);
 
-        let res = await Api.getHospital();
-        console.log(res);
+        let lat = null;
+        let lng = null;
+        if(coords){ /**Vai preencher sempre que existir a informação  */
+            lat = coords.latitude;
+            lng = coords.longitude
+        }
+
+
+        let res = await Api.getHospital(lat, lng, locationText);
         if(res.error == ''){
             if(res.loc){
                 setLocationText(res.loc);
@@ -80,6 +90,14 @@ export default () => {
         getHospital();
     },[])
 
+    const handleLocationSearch = () =>{
+        setCoords({}); /** Utilizará as coordenadas novas para mostrar se tem ou não hospitais cadastrados na região, 
+                        zerando a anterior que ja viria por padrão*/
+        getHospital(); 
+    }
+
+    
+
     return(
         <Container>
             <Scroller >
@@ -96,6 +114,7 @@ export default () => {
                         placeholderTextColor="#fff"
                         value={locationText}
                         onChangeText={t=>setLocationText(t)}
+                        onEndEditing={handleLocationSearch}
                     />
                     <LocationFinder onPress={handlerLocationFinder}>
                         <MyLocationIcon width="24" height="24" fill="#fff"/>
